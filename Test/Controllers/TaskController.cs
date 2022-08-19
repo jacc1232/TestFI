@@ -12,7 +12,7 @@ namespace Test.Controllers
     public class TaskController : Controller
     {
         TaskListDataAccess objTask = new TaskListDataAccess();
-        
+
         [HttpGet]
         [Route("api/Task/Index")]
         public IEnumerable<TblTaskList> GetAllTask()
@@ -21,30 +21,48 @@ namespace Test.Controllers
         }
         [HttpPost]
         [Route("api/task/Create")]
-        public int Create(TblTaskList task)
+        public ActionResult Create(TblTaskList task)
         {
-            return objTask.AddTask(task);
-        }
+            try
+            {
+                objTask.AddTask(task);
+                return Ok("Se guardo la tarea correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
 
-        [HttpGet]
-        [Route("api/task/Details/{id}")]
-        public TblTaskList Details(int id)
-        {
-            return objTask.GetTaskData(id);
         }
 
         [HttpPut]
         [Route("api/task/Edit")]
-        public int Edit(TblTaskList task)
+        public ActionResult Edit(TblTaskList task)
         {
-            return objTask.UpdateTask(task);
+            try
+            {
+                objTask.UpdateTask(task);
+                return Ok("Se actualizó la tarea correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
         }
 
         [HttpDelete]
         [Route("api/task/Delete/{id}")]
-        public int Delete(int id)
+        public ActionResult Delete(int id)
         {
-            return objTask.DeleteTask(id);
+            try
+            {
+                objTask.DeleteTask(id);
+                return Ok("Tarea Eliminada Correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
         }
     }
 }

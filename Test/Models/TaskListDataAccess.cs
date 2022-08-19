@@ -12,74 +12,28 @@ namespace Test.Models
         TestContext db = new TestContext();
         public IEnumerable<TblTaskList> getAllTaskList()
         {
-            try
-            {
-                return db.TblTaskLists.ToList();
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return db.TblTaskLists.ToList();
         }
-        //To Add new employee record     
-        public int AddTask(TblTaskList task)
+        //To Add new task record     
+        public void AddTask(TblTaskList task)
         {
-            try
-            {
-                db.TblTaskLists.Add(task);
-                db.SaveChanges();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }
+            db.TblTaskLists.Add(task);
+            db.SaveChanges();
         }
 
-        //To Update the records of a particluar employee    
-        public int UpdateTask(TblTaskList task)
+        //To Update the records of a particluar task    
+        public void UpdateTask(TblTaskList task)
         {
-            try
-            {
-                db.Entry(task).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }
+            db.Entry(task).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
-        //Get the details of a particular employee    
-        public TblTaskList GetTaskData(int id)
+        //To Delete the record of a particular task    
+        public void DeleteTask(int id)
         {
-            try
-            {
-                TblTaskList employee = db.TblTaskLists.Find(id);
-                return employee;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        //To Delete the record of a particular employee    
-        public int DeleteTask(int id)
-        {
-            try
-            {
-                TblTaskList emp = db.TblTaskLists.Find(id);
-                db.TblTaskLists.Remove(emp);
-                db.SaveChanges();
-                return 1;
-            }
-            catch
-            {
-                throw;
-            }
+            TblTaskList task = db.TblTaskLists.Find(id);
+            db.TblTaskLists.Remove(task);
+            db.SaveChanges();
         }
     }
 }

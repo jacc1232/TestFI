@@ -32,12 +32,20 @@ function TaskList() {
             };
 
             fetch("api/Task/Create", requestOptions)
-                .then(response => response.text())
-                .then(result => {
+                .then(async response => {
+                    const data = await response.text();
+                    if (!response.ok) {
+                        const error = (data) || response.status;
+                        return Promise.reject(error);
+                    }
                     getTasks();
-                    toast.success("Se guardó la tarea correctamente.");
+                    toast.success(data);
+
                 })
-                .catch(error => console.log('error', error));
+                .catch(error => {
+
+                    toast.error(error);
+                });
 
         }
         else {
@@ -49,12 +57,22 @@ function TaskList() {
         if (!confirm("Está seguro que desea eliminar esta tarea"))
             return;
         else {
-            fetch('api/Task/Delete/' + id, {
-                method: 'delete'
-            }).then(data => {
-                getTasks();
-                toast("Tarea Eliminada Correctamente.");
-            });
+            fetch('api/Task/Delete/' + id, { method: 'delete' })
+                .then(async response => {
+                    const data = await response.text();
+                    if (!response.ok) {
+                        const error = (data) || response.status;
+                        return Promise.reject(error);
+                    }
+                    getTasks();
+                    toast.success(data);
+
+                })
+                .catch(error => {
+
+                    toast.error(error);
+                });
+
         }
     }
 
@@ -75,13 +93,22 @@ function TaskList() {
         };
 
         fetch("api/Task/Edit", requestOptions)
-            .then(response => response.text())
-            .then(result => {
+            .then(async response => {
+                const data = await response.text();
+                if (!response.ok) {
+                    const error = (data) || response.status;
+                    return Promise.reject(error);
+                }
                 const taskUpdate = [...tasks];
                 setTask(taskUpdate);
                 taskEdit.completada ? toast.success("Tarea completada Correctamente.") : toast.success("Se actualizó la tarea correctamente.");
+
             })
-            .catch(error => console.log('error', error));
+            .catch(error => {
+
+                toast.error(error);
+            });
+
 
     }
     const taskEdit = id => {
@@ -92,25 +119,38 @@ function TaskList() {
         setTask(taskUpdate);
     }
     const confirmEdit = (id, input) => {
-        const taskEdit = tasks.find(tarea => tarea.id == id);
+        if (input.trim()) {
+            const taskEdit = tasks.find(tarea => tarea.id == id);
 
-        var formdata = new FormData();
-        formdata.append("Texto", input);
-        formdata.append("Completada", taskEdit.completada);
-        formdata.append("Id", taskEdit.id);
-        var requestOptions = {
-            method: 'Put',
-            body: formdata,
-            redirect: 'follow'
-        };
+            var formdata = new FormData();
+            formdata.append("Texto", input);
+            formdata.append("Completada", taskEdit.completada);
+            formdata.append("Id", taskEdit.id);
+            var requestOptions = {
+                method: 'Put',
+                body: formdata,
+                redirect: 'follow'
+            };
 
-        fetch("api/Task/Edit", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                getTasks();
-                toast.success("Se actualizó la tarea correctamente.");
-            })
-            .catch(error => console.log('error', error));
+            fetch("api/Task/Edit", requestOptions)
+                .then(async response => {
+                    const data = await response.text();
+                    if (!response.ok) {
+                        const error = (data) || response.status;
+                        return Promise.reject(error);
+                    }
+                    getTasks();
+                    toast.success(data);
+
+                })
+                .catch(error => {
+                    toast.error(error);
+                });
+        }
+        else {
+            toast.info("La tarea debe tener algún nombre.");
+        }
+
 
     }
     const cancelEdit = () => {

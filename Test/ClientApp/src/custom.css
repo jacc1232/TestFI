@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    color: white;
+    background-color: #000000;
+    font-family: Lato, sans-serif;
+    margin-top: 40px;
+    background-image: url(images/background.png);
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+h1 {
+    color: #1b1b32;
+    font-size: 25px;
+    font-family: Roboto, sans-serif;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.aplication-task {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Listas de Tareas */
+
+.task-list-main {
+    width: 600px;
+    min-height: 500px;
+    background-color: #d0d0d5;
+    padding: 25px;
+    margin: 10px;
+    border-radius: 26px;
+}
